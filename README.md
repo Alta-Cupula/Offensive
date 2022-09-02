@@ -62,7 +62,7 @@ Server IP Address | Ports Open
 
 **Nmap Scan Results:**
 
-![Nmap scan](imagem1.jpg)
+![Nmap scan](/imagem1.jpg)
 
 *Initial Shell Vulnerability Exploited*
 
