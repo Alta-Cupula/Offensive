@@ -1,2 +1,0 @@
-# Offensive
-CP Offensive
